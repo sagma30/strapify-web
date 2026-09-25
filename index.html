@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#09090B] text-white selection:bg-[#FF5500] selection:text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRAPIFY — Precision Tool-Free Interchangeable Watch Straps</title>
+  <meta name="description" content="Redefining wristwear. High-grade interchangeable watch straps with 5-second tool-free quick-release spring bars and slide-on hardware charms." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#FF5500',
+              orangeHover: '#E04B00',
+              dark: '#09090B',
+              surface: '#121215',
+              surfaceHover: '#18181D',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderFocus: 'rgba(255, 85, 0, 0.4)',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #09090B;
+      color: #FAFAFA;
+      overflow-x: hidden;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272A;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3F3F46;
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    /* Smooth cross-fade transition animation for the visualizer strap */
+    .strap-base {
+      transition: fill 550ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .strap-texture-layer {
+      transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+    .strap-texture-layer.texture-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .strap-texture-layer.texture-inactive {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .visualizer-swap-pulse {
+      animation: dialSubtlePulse 600ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    @keyframes dialSubtlePulse {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.025); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- ================= 1. TOP TICKER & STICKY NAVBAR ================= -->
+  <!-- Top Ticker -->
+  <div class="bg-gradient-to-r from-[#18181B] via-[#09090B] to-[#18181B] text-zinc-400 text-[11px] font-mono tracking-widest uppercase py-2 px-4 border-b border-white/5 flex items-center justify-center gap-3">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-ping"></span>
+    <span class="text-zinc-200">Complimentary Express Shipping on all Strap Bundles</span>
+    <span class="text-zinc-600 hidden sm:inline">|</span>
+    <span class="hidden sm:inline text-zinc-400">12-Month No-Hassle Warranty</span>
+  </div>
+
+  <!-- Sticky Navbar -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-black/75 border-b border-white/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="group flex items-center gap-1 text-xl sm:text-2xl font-extrabold tracking-widest text-white transition-opacity hover:opacity-90">
+          <span>STRAPIFY</span>
+          <span class="w-2 h-2 rounded-full bg-[#FF5500] group-hover:scale-125 transition-transform duration-300"></span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <a href="#collections" class="hover:text-white transition-colors">Collections</a>
+          <a href="#mechanism" class="hover:text-white transition-colors">The Mechanism</a>
+          <a href="#charms" class="hover:text-white transition-colors">Charms</a>
+          <a href="#why-strapify" class="hover:text-white transition-colors">Why Strapify</a>
+          <a href="#bundles" class="text-zinc-200 hover:text-[#FF5500] transition-colors flex items-center gap-1.5">
+            <span>Bundles</span>
+            <span class="text-[9px] bg-[#FF5500]/20 text-[#FF5500] px-1.5 py-0.5 rounded border border-[#FF5500]/30 font-mono">SAVE ₹50</span>
+          </a>
+        </nav>
+
+        <!-- Right Utilities -->
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <!-- Currency Toggle -->
+          <div class="hidden sm:flex items-center gap-1 text-xs font-mono font-medium px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-zinc-300">
+            <span class="text-[#FF5500]">₹</span>
+            <span>INR</span>
+          </div>
+
+          <!-- Search Icon Trigger -->
+          <button 
+            onclick="toggleSearchModal()" 
+            class="p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-900 transition-colors cursor-pointer"
+            aria-label="Search Straps"
+          >
+            <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+          </button>
+
+          <!-- Cart Drawer Button -->
+          <button 
+            onclick="openCartDrawer()" 
+            class="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-xs font-semibold transition-all shadow-sm cursor-pointer"
+            aria-label="View Shopping Bag"
+          >
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-zinc-300"></i>
+            <span class="hidden sm:inline">Bag</span>
+            <span id="nav-cart-count" class="px-1.5 py-0.2 rounded-full bg-[#FF5500] text-white font-mono text-[10px] font-bold">
+              1
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SEARCH OVERLAY MODAL ================= -->
+  <div id="search-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-start justify-center pt-24 px-4">
+    <div class="w-full max-w-xl bg-[#121215] border border-white/15 rounded-2xl p-4 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-sm text-zinc-400">
+          <i data-lucide="search" class="w-4 h-4 text-[#FF5500]"></i>
+          <span>Search Strapify Collections</span>
+        </div>
+        <button onclick="toggleSearchModal()" class="text-zinc-500 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <input 
+        id="search-input"
+        type="text" 
+        placeholder="Search 'Silicone', 'Leather', 'Apple Watch', 'NATO'..."
+        class="w-full px-4 py-3 bg-zinc-900/80 border border-white/10 rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-[#FF5500]"
+        oninput="handleSearchQuery(this.value)"
+      />
+      <div id="search-results" class="text-xs text-zinc-400 space-y-2 max-h-56 overflow-y-auto pt-2">
+        <p class="text-zinc-500 text-[11px] uppercase tracking-wider font-mono">Popular searches:</p>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="applyQuickSearch('Active Silicone')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">Active Silicone</button>
+          <button onclick="applyQuickSearch('Tuscan Leather')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">Tuscan Leather</button>
+          <button onclick="applyQuickSearch('NATO Ballistic')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">NATO Ballistic</button>
+          <button onclick="applyQuickSearch('Hardware Charms')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">Hardware Charms</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ================= 2. COMMERCIAL HERO SECTION ================= -->
+    <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-32 overflow-hidden">
+      <!-- Ambient Radial Glow -->
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-[#FF5500]/15 via-orange-600/5 to-transparent blur-3xl rounded-full pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          <!-- Hero Copy -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs font-mono text-zinc-300 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-[#FF5500]"></span>
+              <span>TOOL-FREE INTERCHANGEABLE STRAPS</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.05]">
+              One Watch.<br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-500">
+                Infinite Possibilities.
+              </span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              Breathe new life into the timepieces you already own. Premium materials and tool-free quick releases engineered for instant daily transitions from the boardroom to the gym.
+            </p>
+
+            <!-- Dual CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <a 
+                href="#bundles" 
+                class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#FF5500] hover:bg-[#E04B00] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-[#FF5500]/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Shop Strap Bundles</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+
+              <a 
+                href="#collections" 
+                class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-zinc-200 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Explore Materials</span>
+              </a>
+            </div>
+
+            <!-- Trust Bar -->
+            <div class="pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="timer" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                <span class="text-xs font-mono text-zinc-300">&lt; 5-Sec Swap</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="tool" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                <span class="text-xs font-mono text-zinc-300">Zero Tools</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="cpu" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                <span class="text-xs font-mono text-zinc-300">In-House Molded</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                <span class="text-xs font-mono text-zinc-300">Universal Fit</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Showcase Visual: Watch transitioning between Olive Stitched Leather and Orange Textured Silicone -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-md glass-card rounded-2xl p-6 sm:p-8 overflow-hidden shadow-2xl">
+              
+              <div class="flex items-center justify-between text-xs font-mono text-zinc-400 mb-4 border-b border-white/10 pb-3">
+                <span class="flex items-center gap-1.5 text-white">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  DUAL-STRAP CONVERTIBLE
+                </span>
+                <span class="text-[#FF5500]">316L Stainless Lug Pin</span>
+              </div>
+
+              <!-- Split Strap Assembly Visualization -->
+              <div class="relative h-80 flex items-center justify-center">
+                <!-- Outer subtle halo -->
+                <div class="absolute w-56 h-56 rounded-full bg-zinc-800/40 blur-xl"></div>
+
+                <svg viewBox="0 0 240 320" class="w-full h-full drop-shadow-2xl select-none">
+                  <defs>
+                    <linearGradient id="hero-steel" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF"/>
+                      <stop offset="50%" stop-color="#A1A1AA"/>
+                      <stop offset="100%" stop-color="#3F3F46"/>
+                    </linearGradient>
+                    <linearGradient id="hero-orange-strap" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#FF5500"/>
+                      <stop offset="50%" stop-color="#FF6B1F"/>
+                      <stop offset="100%" stop-color="#D64500"/>
+                    </linearGradient>
+                    <linearGradient id="hero-olive-strap" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#3F4A3C"/>
+                      <stop offset="50%" stop-color="#4E5D4B"/>
+                      <stop offset="100%" stop-color="#333D30"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- TOP STRAP: Tuscan Stitched Olive Leather -->
+                  <g id="hero-top-olive">
+                    <path d="M 80,105 L 80,15 Q 80,8 90,8 L 150,8 Q 160,8 160,15 L 160,105 Z" fill="url(#hero-olive-strap)" />
+                    <!-- Perimeter Hand-Stitch simulation -->
+                    <line x1="86" y1="18" x2="86" y2="102" stroke="#E4E4E7" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.8"/>
+                    <line x1="154" y1="18" x2="154" y2="102" stroke="#E4E4E7" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.8"/>
+                    <line x1="86" y1="18" x2="154" y2="18" stroke="#E4E4E7" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.8"/>
+                    <!-- Top 316L Buckle -->
+                    <rect x="76" y="5" width="88" height="10" rx="3" fill="url(#hero-steel)"/>
+                    <rect x="118" y="2" width="4" height="14" rx="1" fill="#27272A"/>
+                  </g>
+
+                  <!-- BOTTOM STRAP: Vibrant Orange Textured Silicone Band -->
+                  <g id="hero-bottom-orange">
+                    <path d="M 80,215 L 80,295 Q 80,312 120,316 Q 160,312 160,295 L 160,215 Z" fill="url(#hero-orange-strap)" />
+                    <!-- Micro ridges texture -->
+                    <line x1="86" y1="230" x2="154" y2="230" stroke="#000000" stroke-width="2" opacity="0.25"/>
+                    <line x1="86" y1="245" x2="154" y2="245" stroke="#000000" stroke-width="2" opacity="0.25"/>
+                    <line x1="86" y1="260" x2="154" y2="260" stroke="#000000" stroke-width="2" opacity="0.25"/>
+                    <line x1="90" y1="275" x2="150" y2="275" stroke="#000000" stroke-width="2" opacity="0.25"/>
+                    <line x1="96" y1="290" x2="144" y2="290" stroke="#000000" stroke-width="2" opacity="0.25"/>
+                    <!-- Sizing holes -->
+                    <circle cx="120" cy="245" r="2.5" fill="#18181B" opacity="0.7"/>
+                    <circle cx="120" cy="260" r="2.5" fill="#18181B" opacity="0.7"/>
+                    <circle cx="120" cy="275" r="2.5" fill="#18181B" opacity="0.7"/>
+                    <circle cx="120" cy="290" r="2.5" fill="#18181B" opacity="0.7"/>
+                    <!-- Silicone keeper -->
+                    <rect x="78" y="224" width="84" height="8" rx="2" fill="#D64500" stroke="#121215" stroke-width="0.5"/>
+                    <!-- Built-in Quick Release Pin indicator -->
+                    <circle cx="146" cy="220" r="3" fill="#FEF08A" stroke="#18181B" stroke-width="0.8"/>
+                  </g>
+
+                  <!-- WATCH CASE & DIAL -->
+                  <g id="hero-watch-head">
+                    <!-- Solid Steel Lugs -->
+                    <path d="M 72,126 L 82,106 L 94,106 L 86,126 Z" fill="url(#hero-steel)"/>
+                    <path d="M 168,126 L 158,106 L 146,106 L 154,126 Z" fill="url(#hero-steel)"/>
+                    <path d="M 72,194 L 82,214 L 94,214 L 86,194 Z" fill="url(#hero-steel)"/>
+                    <path d="M 168,194 L 158,214 L 146,214 L 154,194 Z" fill="url(#hero-steel)"/>
+                    <!-- Chrono Crown & Pushers -->
+                    <rect x="176" y="142" width="6" height="6" rx="1" fill="url(#hero-steel)"/>
+                    <rect x="177" y="153" width="7" height="14" rx="2" fill="url(#hero-steel)"/>
+                    <rect x="176" y="172" width="6" height="6" rx="1" fill="url(#hero-steel)"/>
+                    <!-- Outer Bezel Ring -->
+                    <circle cx="120" cy="160" r="54" fill="url(#hero-steel)"/>
+                    <circle cx="120" cy="160" r="50" fill="#09090B" stroke="#27272A" stroke-width="1.5"/>
+                    <circle cx="120" cy="160" r="42" fill="#121215"/>
+                    
+                    <!-- Subdials -->
+                    <circle cx="106" cy="160" r="9" fill="#09090B" stroke="#27272A" stroke-width="0.8"/>
+                    <circle cx="134" cy="160" r="9" fill="#09090B" stroke="#27272A" stroke-width="0.8"/>
+                    <circle cx="120" cy="174" r="9" fill="#09090B" stroke="#27272A" stroke-width="0.8"/>
+
+                    <!-- Dial Markers & Branding -->
+                    <text x="120" y="142" text-anchor="middle" font-size="6" font-family="'Plus Jakarta Sans'" font-weight="bold" fill="#FAFAFA" letter-spacing="1">STRAPIFY</text>
+                    <text x="120" y="148" text-anchor="middle" font-size="4" font-family="'JetBrains Mono'" fill="#71717A">AUTOMATIC</text>
+
+                    <!-- Lume Batons -->
+                    <line x1="120" y1="122" x2="120" y2="128" stroke="#E4E4E7" stroke-width="2"/>
+                    <line x1="158" y1="160" x2="152" y2="160" stroke="#E4E4E7" stroke-width="2"/>
+                    <line x1="82" y1="160" x2="88" y2="160" stroke="#E4E4E7" stroke-width="2"/>
+
+                    <!-- Hands -->
+                    <line x1="120" y1="160" x2="136" y2="148" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="120" y1="160" x2="104" y2="166" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="120" y1="170" x2="120" y2="126" stroke="#FF5500" stroke-width="1" stroke-linecap="round"/>
+                    <circle cx="120" cy="160" r="3" fill="#FF5500"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Caption Tag -->
+              <div class="mt-4 p-3 rounded-xl bg-zinc-900/80 border border-white/5 flex items-center justify-between text-xs">
+                <div>
+                  <p class="font-bold text-white">Daily Commute to High Intensity</p>
+                  <p class="text-[11px] text-zinc-400">Seamlessly swappable in under 5 seconds</p>
+                </div>
+                <span class="font-mono text-[#FF5500] text-xs font-semibold">100% Tool-Free</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. THE VALUE PROPOSITION (BENTO GRID) ================= -->
+    <section id="why-strapify" class="py-20 sm:py-28 bg-[#121215] border-y border-white/10 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="max-w-3xl mb-16">
+          <span class="text-xs font-mono font-bold tracking-widest text-[#FF5500] uppercase">ENGINEERING PHILOSOPHY</span>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">
+            Engineered to Replace the Old Standard
+          </h2>
+          <p class="text-zinc-400 text-sm sm:text-base mt-3">
+            Traditional horology accessory models forced trade-offs between scratching luxury cases and settling for cheap single-use bands. We designed a modern ecosystem.
+          </p>
+        </div>
+
+        <!-- Modern Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          <!-- Bento Card 1: Say Goodbye to Jeweler Tools (Wide) -->
+          <div class="md:col-span-7 glass-card rounded-2xl p-8 relative overflow-hidden group">
+            <div class="w-10 h-10 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-6">
+              <i data-lucide="wrench" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Say Goodbye to Jeweler Tools</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed max-w-lg">
+              Traditional spring bars scratch your lugs, fly across the floor, and require jeweler tweezers. Our integrated flush micro-tab mechanism releases smoothly with a single fingernail in under 5 seconds.
+            </p>
+            <div class="mt-8 flex items-center gap-3 text-xs font-mono text-[#FF5500]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#FF5500]"></span>
+              <span>15kg Tensile Spring Retention</span>
+            </div>
+          </div>
+
+          <!-- Bento Card 2: Stop Buying Entirely New Watches (Narrow) -->
+          <div class="md:col-span-5 glass-card rounded-2xl p-8 relative overflow-hidden group">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 mb-6">
+              <i data-lucide="repeat" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Stop Buying New Watches</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">
+              Transform one centerpiece watch for boardrooms, workouts, or formal galas. One precision timepiece, infinite visual identities.
+            </p>
+            <div class="mt-8 flex items-center gap-3 text-xs font-mono text-zinc-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span>300% Wardrobe Utility</span>
+            </div>
+          </div>
+
+          <!-- Bento Card 3: Zero Low-Grade Wear (Narrow) -->
+          <div class="md:col-span-5 glass-card rounded-2xl p-8 relative overflow-hidden group">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 mb-6">
+              <i data-lucide="shield" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Zero Low-Grade Wear</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">
+              Medical-grade FKM fluororubber, hand-stitched full-grain Tuscan calfskin, and ballistic high-tensile seatbelt nylon engineered against UV and sweat degradation.
+            </p>
+            <div class="mt-8 flex items-center gap-3 text-xs font-mono text-zinc-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+              <span>Salt & Sweat Proof</span>
+            </div>
+          </div>
+
+          <!-- Bento Card 4: Next-Level Individuality (Wide) -->
+          <div class="md:col-span-7 glass-card rounded-2xl p-8 relative overflow-hidden group">
+            <div class="w-10 h-10 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-6">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Next-Level Individuality</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed max-w-lg">
+              Elevate beyond stock factory bands with custom metallic slide-on hardware charms. Mark milestones, monograms, and horological coordinates without damaging the strap.
+            </p>
+            <div class="mt-8 flex items-center gap-3 text-xs font-mono text-[#FF5500]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#FF5500]"></span>
+              <span>Precision Beveled Fit</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 4. THE CORE MECHANISM: "NO TOOLS. NO FRUSTRATION." ================= -->
+    <section id="mechanism" class="py-20 sm:py-28 bg-[#09090B] border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-mono font-bold tracking-widest text-[#FF5500] uppercase">PATENT-PENDING INTEGRATION</span>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">
+            The 5-Second Quick Release
+          </h2>
+          <p class="text-zinc-400 text-sm sm:text-base mt-3">
+            Designed for tactile confidence. Experience how seamless watch customisation was meant to be.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- 3-Step Interactive Switch Flow -->
+          <div class="lg:col-span-6 space-y-4">
+            
+            <div 
+              onclick="setMechanismStep(1)" 
+              id="mech-step-1"
+              class="mech-step-card p-6 rounded-2xl border transition-all cursor-pointer bg-zinc-900/90 border-[#FF5500] shadow-md shadow-[#FF5500]/10"
+            >
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-lg bg-[#FF5500] text-white flex items-center justify-center font-mono text-xs font-bold shrink-0">01</span>
+                <h4 class="text-base font-bold text-white">Retract Flush Micro-Tab</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-zinc-400 mt-2 pl-10">
+                Engage the recessed 316L lever tab on the strap underside with your thumbnail. No screwdrivers or jeweler forks required.
+              </p>
+            </div>
+
+            <div 
+              onclick="setMechanismStep(2)" 
+              id="mech-step-2"
+              class="mech-step-card p-6 rounded-2xl border transition-all cursor-pointer bg-zinc-900/40 border-white/10 hover:border-white/20"
+            >
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center font-mono text-xs font-bold shrink-0">02</span>
+                <h4 class="text-base font-bold text-white">Release Lug Smoothly</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-zinc-400 mt-2 pl-10">
+                The dual internal spring compresses inward cleanly. Zero friction against your precious watch lug holes.
+              </p>
+            </div>
+
+            <div 
+              onclick="setMechanismStep(3)" 
+              id="mech-step-3"
+              class="mech-step-card p-6 rounded-2xl border transition-all cursor-pointer bg-zinc-900/40 border-white/10 hover:border-white/20"
+            >
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center font-mono text-xs font-bold shrink-0">03</span>
+                <h4 class="text-base font-bold text-white">Snap & Secure in Place</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-zinc-400 mt-2 pl-10">
+                Insert your next Strapify band and hear the tactile audible click. Locked securely for up to 15kg of active tensile strain.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Interactive Dial Preview Container with Instant Strap Switcher -->
+          <div class="lg:col-span-6 flex flex-col items-center">
+            <div class="w-full max-w-md glass-card rounded-2xl p-6 sm:p-8 flex flex-col items-center">
+              
+              <div class="w-full flex items-center justify-between text-xs font-mono text-zinc-400 pb-3 border-b border-white/10 mb-4">
+                <span>PREVIEW DIAL</span>
+                <span id="mech-strap-indicator" class="text-[#FF5500] font-bold">Active FKM Silicone</span>
+              </div>
+
+              <!-- Live Watch SVG with Swappable Strap Assembly -->
+              <div id="mechanism-watch-svg" class="w-56 h-72 flex items-center justify-center my-2">
+                <!-- Injected via updateMechanismVisualizer() -->
+              </div>
+
+              <!-- Strap Switch Buttons -->
+              <div class="w-full mt-6 grid grid-cols-3 gap-2">
+                <button 
+                  onclick="switchMechanismStrap('silicone')" 
+                  id="btn-mech-silicone"
+                  class="mech-type-btn py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-[#FF5500] text-white shadow-sm"
+                >
+                  Silicone
+                </button>
+                <button 
+                  onclick="switchMechanismStrap('leather')" 
+                  id="btn-mech-leather"
+                  class="mech-type-btn py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-zinc-900 text-zinc-300 border border-white/10 hover:border-white/30"
+                >
+                  Leather
+                </button>
+                <button 
+                  onclick="switchMechanismStrap('nato')" 
+                  id="btn-mech-nato"
+                  class="mech-type-btn py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-zinc-900 text-zinc-300 border border-white/10 hover:border-white/30"
+                >
+                  NATO
+                </button>
+              </div>
+
+              <p class="text-[11px] text-zinc-500 font-mono mt-3">
+                Tap buttons above to trigger live strap swap animation
+              </p>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 5. STRAP MATERIALS & SPECIFICATIONS ================= -->
+    <section id="collections" class="py-20 sm:py-28 bg-[#121215] border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+          <div>
+            <span class="text-xs font-mono font-bold tracking-widest text-[#FF5500] uppercase">MATERIAL ARCHITECTURE</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">
+              Curated Strap Collections
+            </h2>
+            <p class="text-zinc-400 text-sm sm:text-base mt-2">
+              Designed different. Built to last. Engineered for every wrist environment.
+            </p>
+          </div>
+          <div class="text-xs font-mono text-zinc-500 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#FF5500]"></span>
+            <span>Universal 18mm · 20mm · 22mm · Apple Watch</span>
+          </div>
+        </div>
+
+        <!-- 3 Feature Collection Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          
+          <!-- Card 1: Active Silicone -->
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+            <!-- Macro Showcase Image Container -->
+            <div class="group/macro relative overflow-hidden bg-zinc-950 aspect-[16/10] w-full cursor-crosshair border-b border-white/10 select-none">
+              <div class="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-zinc-300 pointer-events-none group-hover/macro:border-[#FF5500]/50 transition-colors">
+                <i data-lucide="zoom-in" class="w-3 h-3 text-[#FF5500]"></i>
+                <span>Hover for Macro</span>
+              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" 
+                alt="Active Silicone Strap Texture" 
+                class="w-full h-full object-cover object-center transition-transform duration-300 group-hover/macro:scale-[1.02] filter brightness-95 contrast-105"
+                loading="lazy"
+              />
+              <!-- Circular Magnifying Loupe -->
+              <div class="macro-loupe w-36 h-36 rounded-full absolute pointer-events-none opacity-0 scale-95 transition-[opacity,transform] duration-200 border-2 border-white/40 shadow-2xl shadow-black/80 overflow-hidden z-30">
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 z-40 px-2 py-0.5 rounded-full bg-[#FF5500] text-white text-[9px] font-mono font-bold tracking-wider uppercase shadow-md pointer-events-none">
+                  2.5X MACRO
+                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" 
+                  alt="Active Silicone Texture Macro Zoom" 
+                  class="macro-zoom-img absolute max-w-none pointer-events-none will-change-transform"
+                />
+              </div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex justify-between items-start mb-6">
+                <span class="text-xs font-mono font-bold text-[#FF5500] uppercase">01 / PERFORMANCE</span>
+                <span class="text-xs font-mono text-zinc-400">100% Waterproof</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Active Silicone</h3>
+              <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6">
+                High-density fluororubber with sculpted underside micro-ridges for sweat drainage. Velvet-soft texture resistant to salt, UV, and heat.
+              </p>
+              <ul class="space-y-2 text-xs text-zinc-300 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-[#FF5500]"></i>
+                  <span>FKM Fluororubber Core</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-[#FF5500]"></i>
+                  <span>Anti-Dust Oleophobic Coating</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-[#FF5500]"></i>
+                  <span>Slide-On Charm Channel</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-6 bg-zinc-900/60 border-t border-white/5 flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-white">From ₹250</span>
+              <a href="#bundles" class="text-xs font-bold text-[#FF5500] hover:underline flex items-center gap-1">
+                <span>View in Bundles</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Classic Stitched Leather -->
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+            <!-- Macro Showcase Image Container -->
+            <div class="group/macro relative overflow-hidden bg-zinc-950 aspect-[16/10] w-full cursor-crosshair border-b border-white/10 select-none">
+              <div class="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-zinc-300 pointer-events-none group-hover/macro:border-amber-500/50 transition-colors">
+                <i data-lucide="zoom-in" class="w-3 h-3 text-amber-500"></i>
+                <span>Hover for Macro</span>
+              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80" 
+                alt="Classic Leather Strap Texture" 
+                class="w-full h-full object-cover object-center transition-transform duration-300 group-hover/macro:scale-[1.02] filter brightness-95 contrast-105"
+                loading="lazy"
+              />
+              <!-- Circular Magnifying Loupe -->
+              <div class="macro-loupe w-36 h-36 rounded-full absolute pointer-events-none opacity-0 scale-95 transition-[opacity,transform] duration-200 border-2 border-white/40 shadow-2xl shadow-black/80 overflow-hidden z-30">
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 z-40 px-2 py-0.5 rounded-full bg-amber-500 text-zinc-950 text-[9px] font-mono font-bold tracking-wider uppercase shadow-md pointer-events-none">
+                  2.5X MACRO
+                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80" 
+                  alt="Classic Leather Texture Macro Zoom" 
+                  class="macro-zoom-img absolute max-w-none pointer-events-none will-change-transform"
+                />
+              </div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex justify-between items-start mb-6">
+                <span class="text-xs font-mono font-bold text-amber-500 uppercase">02 / HERITAGE</span>
+                <span class="text-xs font-mono text-zinc-400">Tuscan Hides</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Classic Stitched Leather</h3>
+              <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6">
+                Hand-selected vegetable-tanned full-grain calfskin with hand-waxed linen stitching. Develops a warm personal patina over years of wear.
+              </p>
+              <ul class="space-y-2 text-xs text-zinc-300 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i>
+                  <span>Full-Grain Vegetable Tanned</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i>
+                  <span>Beveled 316L Steel Buckle</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i>
+                  <span>Ultra-Soft Calfskin Lining</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-6 bg-zinc-900/60 border-t border-white/5 flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-white">From ₹350</span>
+              <a href="#bundles" class="text-xs font-bold text-amber-500 hover:underline flex items-center gap-1">
+                <span>View in Bundles</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3: Rugged NATO Nylon -->
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+            <!-- Macro Showcase Image Container -->
+            <div class="group/macro relative overflow-hidden bg-zinc-950 aspect-[16/10] w-full cursor-crosshair border-b border-white/10 select-none">
+              <div class="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-zinc-300 pointer-events-none group-hover/macro:border-emerald-500/50 transition-colors">
+                <i data-lucide="zoom-in" class="w-3 h-3 text-emerald-500"></i>
+                <span>Hover for Macro</span>
+              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?auto=format&fit=crop&w=800&q=80" 
+                alt="Rugged NATO Nylon Strap Texture" 
+                class="w-full h-full object-cover object-center transition-transform duration-300 group-hover/macro:scale-[1.02] filter brightness-95 contrast-105"
+                loading="lazy"
+              />
+              <!-- Circular Magnifying Loupe -->
+              <div class="macro-loupe w-36 h-36 rounded-full absolute pointer-events-none opacity-0 scale-95 transition-[opacity,transform] duration-200 border-2 border-white/40 shadow-2xl shadow-black/80 overflow-hidden z-30">
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 z-40 px-2 py-0.5 rounded-full bg-emerald-500 text-zinc-950 text-[9px] font-mono font-bold tracking-wider uppercase shadow-md pointer-events-none">
+                  2.5X MACRO
+                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?auto=format&fit=crop&w=800&q=80" 
+                  alt="Rugged NATO Nylon Texture Macro Zoom" 
+                  class="macro-zoom-img absolute max-w-none pointer-events-none will-change-transform"
+                />
+              </div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+              <div class="flex justify-between items-start mb-6">
+                <span class="text-xs font-mono font-bold text-emerald-500 uppercase">03 / UTILITY</span>
+                <span class="text-xs font-mono text-zinc-400">Ballistic Weave</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Rugged NATO Nylon</h3>
+              <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6">
+                1.2mm thick ultra-dense seatbelt weave engineered to military specifications. Fast-drying, anti-abrasive, and resilient under damp conditions.
+              </p>
+              <ul class="space-y-2 text-xs text-zinc-300 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                  <span>High-Tensile Ballistic Nylon</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                  <span>Ultrasonic Welded Edges</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                  <span>Matte Bead-Blasted Hardware</span>
+                </li>
+              </ul>
+            </div>
+            <div class="p-6 bg-zinc-900/60 border-t border-white/5 flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-white">From ₹250</span>
+              <a href="#bundles" class="text-xs font-bold text-emerald-500 hover:underline flex items-center gap-1">
+                <span>View in Bundles</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Style Variation Pill Grid -->
+        <div class="p-6 glass-card rounded-2xl">
+          <p class="text-xs font-mono font-bold text-zinc-400 uppercase tracking-widest mb-4">
+            Tactile Surface Textures & Finish Weaves:
+          </p>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">3D Geo</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Honeycomb Grid</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Forged Carbon</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Braided Rope</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Tactical Camo</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Racing Stripe</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-zinc-300">Vintage Waxed</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 6. PERSONALIZATION LAB: SLIDE-ON HARDWARE CHARMS ================= -->
+    <section id="charms" class="py-20 sm:py-28 bg-[#09090B] border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-6 space-y-6">
+            <span class="text-xs font-mono font-bold tracking-widest text-[#FF5500] uppercase">PERSONALIZATION LAB</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Add a Touch of You
+            </h2>
+            <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">
+              Engineered specifically for Strapify silicone and leather bands. High-grade metallic charms that slide on securely without irritating your wrist or pinching the strap core.
+            </p>
+
+            <!-- Interactive Charm Badges -->
+            <div class="space-y-3 pt-2">
+              <p class="text-xs font-mono text-zinc-400">Click a charm below to slot it onto the live band:</p>
+              
+              <div class="grid grid-cols-3 gap-3">
+                <button 
+                  onclick="selectCharm('initial')" 
+                  id="charm-btn-initial"
+                  class="charm-badge-btn p-3 rounded-xl border transition-all text-center bg-zinc-900/90 border-[#FF5500] shadow-sm shadow-[#FF5500]/10 cursor-pointer"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-400 to-yellow-600 text-zinc-900 font-extrabold flex items-center justify-center mx-auto text-sm shadow-md">
+                    S
+                  </div>
+                  <span class="block text-xs font-bold text-white mt-2">Monogram Initial</span>
+                  <span class="block text-[10px] text-zinc-500 font-mono">Champagne Gold</span>
+                </button>
+
+                <button 
+                  onclick="selectCharm('compass')" 
+                  id="charm-btn-compass"
+                  class="charm-badge-btn p-3 rounded-xl border transition-all text-center bg-zinc-900/40 border-white/10 hover:border-white/30 cursor-pointer"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-zinc-300 to-zinc-500 text-zinc-900 font-extrabold flex items-center justify-center mx-auto text-sm shadow-md">
+                    🧭
+                  </div>
+                  <span class="block text-xs font-bold text-white mt-2">Explorer Compass</span>
+                  <span class="block text-[10px] text-zinc-500 font-mono">Brushed Titanium</span>
+                </button>
+
+                <button 
+                  onclick="selectCharm('heart')" 
+                  id="charm-btn-heart"
+                  class="charm-badge-btn p-3 rounded-xl border transition-all text-center bg-zinc-900/40 border-white/10 hover:border-white/30 cursor-pointer"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-400 to-yellow-600 text-zinc-900 font-extrabold flex items-center justify-center mx-auto text-sm shadow-md">
+                    ✦
+                  </div>
+                  <span class="block text-xs font-bold text-white mt-2">Polaris Star</span>
+                  <span class="block text-[10px] text-zinc-500 font-mono">Champagne Gold</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-zinc-900/50 border border-white/10 text-xs text-zinc-400 font-mono flex items-center justify-between">
+              <span>Universal Fit: All 20mm & 22mm bands</span>
+              <span class="text-[#FF5500]">Included in Bundles</span>
+            </div>
+
+          </div>
+
+          <!-- Live Visualizer Container Showing Charm Attached to Band -->
+          <div class="lg:col-span-6 flex justify-center">
+            <div class="w-full max-w-md glass-card rounded-2xl p-6 sm:p-8 flex flex-col items-center">
+              
+              <div class="w-full flex items-center justify-between text-xs font-mono text-zinc-400 border-b border-white/10 pb-3 mb-4">
+                <span>STRAP SPEC: 22MM FKM RUBBER</span>
+                <span id="charm-active-tag" class="text-amber-400 font-bold">Monogram 'S' Slotted</span>
+              </div>
+
+              <!-- SVG Render of Strap Section with Charm Slid on -->
+              <svg viewBox="0 0 240 260" class="w-full h-auto drop-shadow-2xl select-none">
+                <defs>
+                  <linearGradient id="charm-strap-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#18181B"/>
+                    <stop offset="50%" stop-color="#27272A"/>
+                    <stop offset="100%" stop-color="#18181B"/>
+                  </linearGradient>
+                  <linearGradient id="charm-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FEF08A"/>
+                    <stop offset="50%" stop-color="#EAB308"/>
+                    <stop offset="100%" stop-color="#CA8A04"/>
+                  </linearGradient>
+                  <linearGradient id="charm-titanium-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#F4F4F5"/>
+                    <stop offset="50%" stop-color="#A1A1AA"/>
+                    <stop offset="100%" stop-color="#71717A"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Black FKM Strap Band -->
+                <path d="M 70,10 L 70,230 Q 70,248 120,252 Q 170,248 170,230 L 170,10 Z" fill="url(#charm-strap-grad)" stroke="#3F3F46" stroke-width="1"/>
+                
+                <!-- Texture channels -->
+                <line x1="80" y1="30" x2="160" y2="30" stroke="#09090B" stroke-width="2"/>
+                <line x1="80" y1="50" x2="160" y2="50" stroke="#09090B" stroke-width="2"/>
+                <line x1="80" y1="70" x2="160" y2="70" stroke="#09090B" stroke-width="2"/>
+                <line x1="80" y1="170" x2="160" y2="170" stroke="#09090B" stroke-width="2"/>
+                <line x1="80" y1="190" x2="160" y2="190" stroke="#09090B" stroke-width="2"/>
+                <line x1="80" y1="210" x2="160" y2="210" stroke="#09090B" stroke-width="2"/>
+
+                <!-- Holes -->
+                <circle cx="120" cy="180" r="3" fill="#09090B"/>
+                <circle cx="120" cy="200" r="3" fill="#09090B"/>
+                <circle cx="120" cy="220" r="3" fill="#09090B"/>
+
+                <!-- Slide-On Charm Sleeve (Dynamic via JavaScript) -->
+                <g id="charm-svg-element" transform="translate(120, 115)">
+                  <!-- Metallic Bracket wrap -->
+                  <rect x="-44" y="-12" width="88" height="24" rx="5" fill="url(#charm-gold-grad)" stroke="#713F12" stroke-width="0.8"/>
+                  <rect x="-14" y="-9" width="28" height="18" rx="3" fill="#FEF08A"/>
+                  <text id="charm-svg-symbol" x="0" y="4" text-anchor="middle" font-size="12" font-weight="extrabold" font-family="'Plus Jakarta Sans'" fill="#18181B">
+                    S
+                  </text>
+                </g>
+              </svg>
+
+              <div class="w-full mt-4 p-3 bg-zinc-900 rounded-xl border border-white/5 flex items-center justify-between text-xs">
+                <span class="text-zinc-400">Zero skin contact on inner wrist</span>
+                <span class="text-emerald-400 font-mono font-bold">100% Hypoallergenic</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 7. BUNDLE BUILDER & PRICING ================= -->
+    <section id="bundles" class="py-20 sm:py-32 bg-[#121215] border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-mono font-bold tracking-widest text-[#FF5500] uppercase">COMPACT PRICING MATRIX</span>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">
+            Curate Your Daily Rotation
+          </h2>
+          <p class="text-zinc-400 text-sm sm:text-base mt-3">
+            Save with our all-in-one strap packages. Each set includes built-in quick release pins and a protective velvet travel sleeve.
+          </p>
+        </div>
+
+        <!-- 3-Column Responsive Pricing Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+          
+          <!-- Plan 1: The Starter Set -->
+          <div class="glass-card rounded-2xl p-8 flex flex-col justify-between transition-all hover:border-white/20">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xl font-bold text-white">The Starter Set</h3>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-zinc-800 text-zinc-300">STARTER</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Essential dual rotation for active days and nights.</p>
+              
+              <div class="flex items-baseline gap-2 mb-6">
+                <span class="text-4xl font-extrabold font-mono text-white">₹250</span>
+                <span class="text-xs font-mono text-zinc-500 line-through">₹300</span>
+                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Save ₹50</span>
+              </div>
+
+              <ul class="space-y-3 text-xs text-zinc-300 mb-8 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>3 Straps (Active Silicone or NATO)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>1 Custom Slide-On Charm Included</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Standard 316L Quick-Release Pins</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Travel Protective Sleeve</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onclick="addBundle('The Starter Set', 250, 300, '3 Straps + 1 Charm')"
+              class="w-full py-3.5 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 hover:border-white/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-sm"
+            >
+              Add Bundle — ₹250
+            </button>
+          </div>
+
+          <!-- Plan 2: The Everyday Rotation (Highlighted) -->
+          <div class="glass-card rounded-2xl p-8 flex flex-col justify-between border-2 border-[#FF5500] shadow-xl shadow-[#FF5500]/10 relative transform md:-translate-y-2">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#FF5500] text-white text-[10px] font-mono font-bold uppercase tracking-wider rounded-full shadow-md">
+              Most Popular Rotation
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xl font-bold text-white">The Everyday Rotation</h3>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FF5500]/20 text-[#FF5500] border border-[#FF5500]/30">BEST VALUE</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Our most acclaimed complete three-tier rotation.</p>
+              
+              <div class="flex items-baseline gap-2 mb-6">
+                <span class="text-4xl font-extrabold font-mono text-white">₹550</span>
+                <span class="text-xs font-mono text-zinc-500 line-through">₹600</span>
+                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Save ₹50</span>
+              </div>
+
+              <ul class="space-y-3 text-xs text-zinc-200 mb-8 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>3 Straps (Silicone / NATO / Leather)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>3 Custom Slide-On Charms</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Dual-Tone PVD Hardware Upgrades</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Hardshell 3-Slot Travel Case</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>12-Month Hardware Warranty</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onclick="addBundle('The Everyday Rotation', 550, 600, '3 Straps + 3 Charms')"
+              class="w-full py-3.5 bg-[#FF5500] hover:bg-[#E04B00] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-[#FF5500]/25"
+            >
+              Add Bundle — ₹550
+            </button>
+          </div>
+
+          <!-- Plan 3: The Collector's Edition -->
+          <div class="glass-card rounded-2xl p-8 flex flex-col justify-between transition-all hover:border-white/20">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xl font-bold text-white">The Collector's Edition</h3>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-zinc-800 text-zinc-300">PREMIUM</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Comprehensive horology suite with full leather roll.</p>
+              
+              <div class="flex items-baseline gap-2 mb-6">
+                <span class="text-4xl font-extrabold font-mono text-white">₹800</span>
+                <span class="text-xs font-mono text-zinc-500 line-through">₹850</span>
+                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Save ₹50</span>
+              </div>
+
+              <ul class="space-y-3 text-xs text-zinc-300 mb-8 font-mono">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>3 Mix & Match Straps (Tuscan Leather + Mesh)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>5 Custom Engraved Slide-On Charms</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Full 316L Surgical Hardware Set</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Handcrafted 4-Piece Leather Watch Roll</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#FF5500] shrink-0"></i>
+                  <span>Priority Insured Express Delivery</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onclick="addBundle('The Collector\'s Edition', 800, 850, '3 Straps + 5 Charms')"
+              class="w-full py-3.5 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 hover:border-white/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-sm"
+            >
+              Add Bundle — ₹800
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= 8. SLIDE-OVER CHECKOUT DRAWER ================= -->
+  <div id="cart-drawer-overlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden transition-opacity">
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-[#121215] border-l border-white/10 shadow-2xl flex flex-col justify-between overflow-hidden">
+      
+      <!-- Drawer Header -->
+      <div class="p-6 border-b border-white/10 flex items-center justify-between bg-zinc-900/40">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-[#FF5500]"></i>
+          <h3 class="text-base font-bold text-white tracking-wide">Your Shopping Bag</h3>
+        </div>
+        <button onclick="closeCartDrawer()" class="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Free shipping alert -->
+      <div class="px-6 py-2.5 bg-[#FF5500]/10 border-b border-[#FF5500]/20 text-[11px] font-mono text-zinc-300 flex items-center justify-between">
+        <span>✓ Complimentary Express Shipping Unlocked</span>
+        <span class="text-[#FF5500] font-bold">12-MO WARRANTY</span>
+      </div>
+
+      <!-- Cart Items List Container -->
+      <div id="cart-drawer-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Drawer Footer with Subtotal & Breakdown -->
+      <div class="p-6 bg-zinc-900/60 border-t border-white/10 space-y-4">
+        <div class="space-y-2 text-xs font-mono">
+          <div class="flex justify-between text-zinc-400">
+            <span>Subtotal</span>
+            <span id="drawer-subtotal" class="text-white">₹550</span>
+          </div>
+          <div class="flex justify-between text-emerald-400">
+            <span>Bundle Package Discount</span>
+            <span id="drawer-discount">-₹50</span>
+          </div>
+          <div class="flex justify-between text-zinc-400">
+            <span>Express Shipping</span>
+            <span class="text-emerald-400 font-bold">FREE</span>
+          </div>
+          <div class="pt-2 border-t border-white/10 flex justify-between text-sm font-bold text-white">
+            <span>Final Total</span>
+            <span id="drawer-total" class="text-base text-[#FF5500]">₹500</span>
+          </div>
+        </div>
+
+        <button 
+          onclick="executeCheckout()" 
+          id="checkout-action-btn"
+          class="w-full py-4 rounded-xl bg-[#FF5500] hover:bg-[#E04B00] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-[#FF5500]/20 flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>PROCEED TO SECURE CHECKOUT</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+
+        <p class="text-[10px] text-center text-zinc-500 font-mono">
+          256-Bit Bank-Grade Encryption · Hassle-Free 30-Day Returns
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback -->
+  <div id="toast" class="fixed top-24 right-4 z-50 bg-[#121215] text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl border border-white/15 flex items-center gap-2.5 transform translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none">
+    <span class="w-2 h-2 rounded-full bg-[#FF5500]"></span>
+    <span id="toast-text">Bundle added to bag</span>
+  </div>
+
+  <!-- ================= 9. PROFESSIONAL FOOTER ================= -->
+  <footer class="bg-[#09090B] text-zinc-400 pt-20 pb-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 pb-16 border-b border-white/10">
+        
+        <!-- Brand Mission Statement -->
+        <div class="lg:col-span-2 space-y-4">
+          <a href="#" class="flex items-center gap-1 text-2xl font-extrabold tracking-widest text-white">
+            <span>STRAPIFY</span>
+            <span class="w-2 h-2 rounded-full bg-[#FF5500]"></span>
+          </a>
+          <p class="text-xs text-zinc-400 leading-relaxed max-w-sm">
+            STRAPIFY — Redefining wristwear through precision interchangeable accessories. Engineered to empower horology collectors and everyday enthusiasts without tools or compromises.
+          </p>
+          <div class="text-[11px] font-mono text-zinc-500 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Melbourne · Bengaluru · Worldwide Dispatch</span>
+          </div>
+        </div>
+
+        <!-- Col 1: Shop -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Shop</h4>
+          <ul class="space-y-2 text-xs text-zinc-400">
+            <li><a href="#collections" class="hover:text-white transition-colors">Active Silicone</a></li>
+            <li><a href="#collections" class="hover:text-white transition-colors">Tuscan Leather</a></li>
+            <li><a href="#collections" class="hover:text-white transition-colors">Tactical NATO</a></li>
+            <li><a href="#charms" class="hover:text-white transition-colors">Slide-On Charms</a></li>
+            <li><a href="#bundles" class="hover:text-white transition-colors">Rotation Bundles</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 2: Support -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Support</h4>
+          <ul class="space-y-2 text-xs text-zinc-400">
+            <li><a href="#mechanism" class="hover:text-white transition-colors">Installation Guide</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Lug Sizing Calculator</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Shipping & Customs</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Track Your Order</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Return Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Warranty & Company -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Company</h4>
+          <ul class="space-y-2 text-xs text-zinc-400">
+            <li><a href="#" class="hover:text-white transition-colors">12-Month Warranty</a></li>
+            <li><a href="#why-strapify" class="hover:text-white transition-colors">Material Science</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Sustainability</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Press & Editorial</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Newsletter -->
+        <div class="lg:col-span-1 space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Newsletter</h4>
+          <p class="text-xs text-zinc-400">
+            Receive private colorway drop announcements and horology care guides.
+          </p>
+          <form onsubmit="handleNewsletter(event)" class="space-y-2">
+            <input 
+              id="newsletter-email"
+              type="email" 
+              required
+              placeholder="Enter your email..."
+              class="w-full px-3 py-2 bg-zinc-900 border border-white/10 rounded-lg text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#FF5500]"
+            />
+            <button 
+              type="submit"
+              class="w-full py-2 bg-white/10 hover:bg-[#FF5500] hover:text-white text-zinc-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Copyright Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+        <p>© 2026 Strapify Inc. All rights reserved.</p>
+        <div class="flex items-center gap-6 font-mono text-[11px]">
+          <a href="#" class="hover:text-zinc-300">Privacy Policy</a>
+          <a href="#" class="hover:text-zinc-300">Terms of Service</a>
+          <a href="#" class="hover:text-zinc-300">Compliance</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
+  <script>
+    // Shopping Bag State
+    let cart = [
+      {
+        id: 'bundle-everyday',
+        title: 'The Everyday Rotation',
+        details: '3 Straps (Silicone/NATO/Leather) + 3 Charms',
+        regularPrice: 600,
+        price: 550,
+        discount: 50,
+        quantity: 1
+      }
+    ];
+
+    // Mechanism Visualizer State
+    let currentMechStrap = 'silicone'; // 'silicone' | 'leather' | 'nato'
+    let currentMechStep = 1;
+
+    // Charm Lab State
+    let activeCharm = 'initial'; // 'initial' | 'compass' | 'heart'
+
+    // ================= NOTIFICATION TOAST =================
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-text');
+      text.innerText = msg;
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+      }, 2600);
+    }
+
+    // ================= CART DRAWER ENGINE =================
+    function openCartDrawer() {
+      const overlay = document.getElementById('cart-drawer-overlay');
+      overlay.classList.remove('hidden');
+      renderCartDrawer();
+    }
+
+    function closeCartDrawer() {
+      const overlay = document.getElementById('cart-drawer-overlay');
+      overlay.classList.add('hidden');
+    }
+
+    function addBundle(title, price, regularPrice, details) {
+      const existing = cart.find(item => item.title === title);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: 'bundle-' + Date.now(),
+          title: title,
+          details: details,
+          regularPrice: regularPrice,
+          price: price,
+          discount: regularPrice - price,
+          quantity: 1
+        });
+      }
+      updateCartBadge();
+      openCartDrawer();
+      showToast(`${title} added to bag!`);
+    }
+
+    function updateCartItemQty(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartBadge();
+      renderCartDrawer();
+    }
+
+    function updateCartBadge() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('nav-cart-count').innerText = count;
+    }
+
+    function renderCartDrawer() {
+      const container = document.getElementById('cart-drawer-items');
+      const subtotalEl = document.getElementById('drawer-subtotal');
+      const discountEl = document.getElementById('drawer-discount');
+      const totalEl = document.getElementById('drawer-total');
+      const checkoutBtn = document.getElementById('checkout-action-btn');
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="h-64 flex flex-col items-center justify-center text-center space-y-3 text-zinc-500">
+            <i data-lucide="shopping-bag" class="w-12 h-12 stroke-[1.5]"></i>
+            <p class="font-bold text-white text-sm">Your shopping bag is empty</p>
+            <p class="text-xs text-zinc-400 max-w-xs">Explore our curated strap bundles to begin your rotation.</p>
+          </div>
+        `;
+        subtotalEl.innerText = '₹0';
+        discountEl.innerText = '₹0';
+        totalEl.innerText = '₹0';
+        checkoutBtn.disabled = true;
+        lucide.createIcons();
+        return;
+      }
+
+      checkoutBtn.disabled = false;
+      const subtotal = cart.reduce((sum, item) => sum + item.regularPrice * item.quantity, 0);
+      const totalDiscount = cart.reduce((sum, item) => sum + item.discount * item.quantity, 0);
+      const finalTotal = subtotal - totalDiscount;
+
+      subtotalEl.innerText = `₹${subtotal}`;
+      discountEl.innerText = `-₹${totalDiscount}`;
+      totalEl.innerText = `₹${finalTotal}`;
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="p-4 bg-zinc-900/70 rounded-xl border border-white/10 flex items-center justify-between gap-3">
+          <div class="space-y-1">
+            <h4 class="text-xs font-bold text-white">${item.title}</h4>
+            <p class="text-[11px] text-zinc-400 font-mono">${item.details}</p>
+            <div class="flex items-baseline gap-2 pt-1 font-mono text-xs">
+              <span class="font-bold text-[#FF5500]">₹${item.price}</span>
+              <span class="text-zinc-500 line-through text-[10px]">₹${item.regularPrice}</span>
+            </div>
+          </div>
+
+          <div class="flex items-center border border-white/10 rounded-lg bg-zinc-800">
+            <button onclick="updateCartItemQty(${idx}, -1)" class="px-2.5 py-1 text-zinc-400 hover:text-white text-xs font-mono">-</button>
+            <span class="px-2 text-xs font-mono font-bold text-white">${item.quantity}</span>
+            <button onclick="updateCartItemQty(${idx}, 1)" class="px-2.5 py-1 text-zinc-400 hover:text-white text-xs font-mono">+</button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function executeCheckout() {
+      const finalTotal = document.getElementById('drawer-total').innerText;
+      alert(`STRAPIFY Order Confirmed!\nAmount: ${finalTotal}\nComplimentary Express Shipping initiated.\n12-Month Hardware Guarantee active.`);
+      cart = [];
+      updateCartBadge();
+      closeCartDrawer();
+    }
+
+    // ================= MECHANISM INTERACTION =================
+    function setMechanismStep(stepNumber) {
+      currentMechStep = stepNumber;
+      document.querySelectorAll('.mech-step-card').forEach((card, i) => {
+        if (i + 1 === stepNumber) {
+          card.className = 'mech-step-card p-6 rounded-2xl border transition-all cursor-pointer bg-zinc-900/90 border-[#FF5500] shadow-md shadow-[#FF5500]/10';
+        } else {
+          card.className = 'mech-step-card p-6 rounded-2xl border transition-all cursor-pointer bg-zinc-900/40 border-white/10 hover:border-white/20';
+        }
+      });
+    }
+
+    function switchMechanismStrap(type) {
+      if (currentMechStrap === type) return;
+      currentMechStrap = type;
+      
+      const labels = {
+        silicone: 'Active FKM Silicone',
+        leather: 'Tuscan Stitched Leather',
+        nato: 'Tactical Ribbed NATO'
+      };
+      const indicator = document.getElementById('mech-strap-indicator');
+      if (indicator) {
+        indicator.style.opacity = '0';
+        setTimeout(() => {
+          indicator.innerText = labels[type] || 'Active Strap';
+          indicator.style.opacity = '1';
+        }, 150);
+      }
+
+      document.querySelectorAll('.mech-type-btn').forEach(btn => {
+        btn.className = 'mech-type-btn py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-zinc-900 text-zinc-300 border border-white/10 hover:border-white/30';
+      });
+      const activeBtn = document.getElementById(`btn-mech-${type}`);
+      if (activeBtn) {
+        activeBtn.className = 'mech-type-btn py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-[#FF5500] text-white shadow-sm';
+      }
+
+      updateMechanismVisualizer();
+      showToast(`Switched to ${labels[type]}`);
+    }
+
+    function updateMechanismVisualizer() {
+      const container = document.getElementById('mechanism-watch-svg');
+      if (!container) return;
+
+      const colors = {
+        silicone: '#FF5500',
+        leather: '#4E5D4B',
+        nato: '#27272A'
+      };
+      const targetColor = colors[currentMechStrap] || '#FF5500';
+
+      // If the SVG structure is already rendered, perform a smooth CSS transition of fill and cross-fade textures
+      const existingSvg = container.querySelector('#strap-visualizer-svg');
+      if (existingSvg) {
+        // Subtle micro-pulse on dial case assembly to simulate mechanical snap
+        existingSvg.classList.remove('visualizer-swap-pulse');
+        void existingSvg.offsetWidth; // Trigger reflow for re-animation
+        existingSvg.classList.add('visualizer-swap-pulse');
+
+        // Smoothly cross-fade strap fill color
+        const strapBases = existingSvg.querySelectorAll('.strap-base');
+        strapBases.forEach(el => {
+          el.style.fill = targetColor;
+        });
+
+        // Smoothly cross-fade texture layer opacities
+        const textureLayers = existingSvg.querySelectorAll('.strap-texture-layer');
+        textureLayers.forEach(layer => {
+          const layerType = layer.getAttribute('data-texture-type');
+          if (layerType === currentMechStrap) {
+            layer.classList.remove('texture-inactive');
+            layer.classList.add('texture-active');
+          } else {
+            layer.classList.remove('texture-active');
+            layer.classList.add('texture-inactive');
+          }
+        });
+        return;
+      }
+
+      // Initial Mount: Render complete multi-layered SVG structure with hardware and textures
+      container.innerHTML = `
+        <svg id="strap-visualizer-svg" viewBox="0 0 200 280" class="w-full h-full drop-shadow-2xl select-none visualizer-swap-pulse">
+          <defs>
+            <linearGradient id="mech-steel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="50%" stop-color="#71717A"/>
+              <stop offset="100%" stop-color="#27272A"/>
+            </linearGradient>
+            <filter id="soft-glow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+            </filter>
+          </defs>
+
+          <!-- ================= TOP STRAP ASSEMBLY ================= -->
+          <g id="visualizer-top-strap">
+            <!-- Base Top Strap Geometry with CSS Fill Transition -->
+            <path class="strap-base" d="M 68,95 L 68,10 Q 68,4 78,4 L 122,4 Q 132,4 132,10 L 132,95 Z" fill="${targetColor}" filter="url(#soft-glow)"/>
+
+            <!-- Texture Layer 1: Silicone Ridges -->
+            <g class="strap-texture-layer ${currentMechStrap === 'silicone' ? 'texture-active' : 'texture-inactive'}" data-texture-type="silicone">
+              <line x1="72" y1="20" x2="128" y2="20" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="35" x2="128" y2="35" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="50" x2="128" y2="50" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="65" x2="128" y2="65" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="80" x2="128" y2="80" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+            </g>
+
+            <!-- Texture Layer 2: Leather Stitched Borders -->
+            <g class="strap-texture-layer ${currentMechStrap === 'leather' ? 'texture-active' : 'texture-inactive'}" data-texture-type="leather">
+              <line x1="72" y1="12" x2="72" y2="90" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+              <line x1="128" y1="12" x2="128" y2="90" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+              <line x1="72" y1="12" x2="128" y2="12" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+            </g>
+
+            <!-- Texture Layer 3: NATO Tactical Ribbed Center Stripe -->
+            <g class="strap-texture-layer ${currentMechStrap === 'nato' ? 'texture-active' : 'texture-inactive'}" data-texture-type="nato">
+              <rect x="94" y="4" width="12" height="91" fill="#FF5500" opacity="0.75"/>
+              <line x1="94" y1="4" x2="94" y2="95" stroke="#FFFFFF" stroke-width="0.6" opacity="0.3"/>
+              <line x1="106" y1="4" x2="106" y2="95" stroke="#FFFFFF" stroke-width="0.6" opacity="0.3"/>
+            </g>
+
+            <!-- Top 316L Buckle Hardware -->
+            <rect x="64" y="2" width="72" height="8" rx="2" fill="url(#mech-steel)"/>
+            <rect x="98" y="0" width="4" height="12" rx="1" fill="#18181B"/>
+          </g>
+
+          <!-- ================= BOTTOM STRAP ASSEMBLY ================= -->
+          <g id="visualizer-bottom-strap">
+            <!-- Base Bottom Strap Geometry with CSS Fill Transition -->
+            <path class="strap-base" d="M 68,185 L 68,260 Q 68,275 100,278 Q 132,275 132,260 L 132,185 Z" fill="${targetColor}" filter="url(#soft-glow)"/>
+
+            <!-- Texture Layer 1: Silicone Ridges & Holes -->
+            <g class="strap-texture-layer ${currentMechStrap === 'silicone' ? 'texture-active' : 'texture-inactive'}" data-texture-type="silicone">
+              <line x1="72" y1="200" x2="128" y2="200" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="215" x2="128" y2="215" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="72" y1="230" x2="128" y2="230" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <line x1="74" y1="245" x2="126" y2="245" stroke="#000000" stroke-width="1.8" opacity="0.3"/>
+              <circle cx="100" cy="210" r="2.2" fill="#09090B" opacity="0.6"/>
+              <circle cx="100" cy="225" r="2.2" fill="#09090B" opacity="0.6"/>
+              <circle cx="100" cy="240" r="2.2" fill="#09090B" opacity="0.6"/>
+              <circle cx="100" cy="255" r="2.2" fill="#09090B" opacity="0.6"/>
+            </g>
+
+            <!-- Texture Layer 2: Leather Stitched Borders & Holes -->
+            <g class="strap-texture-layer ${currentMechStrap === 'leather' ? 'texture-active' : 'texture-inactive'}" data-texture-type="leather">
+              <line x1="72" y1="190" x2="72" y2="260" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+              <line x1="128" y1="190" x2="128" y2="260" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+              <path d="M 72,260 Q 100,274 128,260" fill="none" stroke="#FAF9F6" stroke-width="1.3" stroke-dasharray="2.5,2.5" opacity="0.85"/>
+              <circle cx="100" cy="215" r="2" fill="#18181B" opacity="0.7"/>
+              <circle cx="100" cy="230" r="2" fill="#18181B" opacity="0.7"/>
+              <circle cx="100" cy="245" r="2" fill="#18181B" opacity="0.7"/>
+            </g>
+
+            <!-- Texture Layer 3: NATO Tactical Ribbed Center Stripe -->
+            <g class="strap-texture-layer ${currentMechStrap === 'nato' ? 'texture-active' : 'texture-inactive'}" data-texture-type="nato">
+              <path d="M 94,185 L 94,277 Q 100,278 106,277 L 106,185 Z" fill="#FF5500" opacity="0.75"/>
+              <line x1="94" y1="185" x2="94" y2="277" stroke="#FFFFFF" stroke-width="0.6" opacity="0.3"/>
+              <line x1="106" y1="185" x2="106" y2="277" stroke="#FFFFFF" stroke-width="0.6" opacity="0.3"/>
+            </g>
+
+            <!-- Quick Release Spring Bar Lever Micro-Pin -->
+            <g transform="translate(122, 192)">
+              <rect x="-4" y="-2" width="10" height="4" rx="1.5" fill="#18181B" opacity="0.6"/>
+              <circle cx="1" cy="0" r="2.8" fill="#FEF08A" stroke="#18181B" stroke-width="0.6"/>
+            </g>
+          </g>
+
+          <!-- ================= WATCH DIAL & CASE ASSEMBLY ================= -->
+          <g id="visualizer-watch-case">
+            <!-- Steel Lugs -->
+            <path d="M 64,115 L 72,98 L 80,98 L 74,115 Z" fill="url(#mech-steel)"/>
+            <path d="M 136,115 L 128,98 L 120,98 L 126,115 Z" fill="url(#mech-steel)"/>
+            <path d="M 64,165 L 72,182 L 80,182 L 74,165 Z" fill="url(#mech-steel)"/>
+            <path d="M 136,165 L 128,182 L 120,182 L 126,165 Z" fill="url(#mech-steel)"/>
+
+            <!-- Chrono Pushers & Screw-down Crown -->
+            <rect x="145" y="126" width="5" height="5" rx="1" fill="url(#mech-steel)"/>
+            <rect x="146" y="134" width="6" height="12" rx="1.5" fill="url(#mech-steel)"/>
+            <rect x="145" y="149" width="5" height="5" rx="1" fill="url(#mech-steel)"/>
+
+            <!-- Watch Case Body & Ceramic Bezel -->
+            <circle cx="100" cy="140" r="46" fill="url(#mech-steel)"/>
+            <circle cx="100" cy="140" r="42" fill="#09090B" stroke="#27272A" stroke-width="1.2"/>
+            <circle cx="100" cy="140" r="34" fill="#121215"/>
+
+            <!-- Subdials -->
+            <circle cx="89" cy="140" r="7" fill="#09090B" stroke="#27272A" stroke-width="0.6"/>
+            <circle cx="111" cy="140" r="7" fill="#09090B" stroke="#27272A" stroke-width="0.6"/>
+            <circle cx="100" cy="150" r="7" fill="#09090B" stroke="#27272A" stroke-width="0.6"/>
+
+            <!-- Horology Dial Typography -->
+            <text x="100" y="126" text-anchor="middle" font-size="5" font-family="'Plus Jakarta Sans'" font-weight="bold" fill="#FAFAFA" letter-spacing="1">STRAPIFY</text>
+            <text x="100" y="132" text-anchor="middle" font-size="3.5" font-family="'JetBrains Mono'" fill="#71717A">100M DIVER</text>
+
+            <!-- Lume Baton Indices -->
+            <line x1="100" y1="109" x2="100" y2="114" stroke="#E4E4E7" stroke-width="1.5"/>
+            <line x1="131" y1="140" x2="126" y2="140" stroke="#E4E4E7" stroke-width="1.5"/>
+            <line x1="69" y1="140" x2="74" y2="140" stroke="#E4E4E7" stroke-width="1.5"/>
+
+            <!-- Clock Hands -->
+            <line x1="100" y1="140" x2="114" y2="130" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+            <line x1="100" y1="140" x2="86" y2="145" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="100" y1="148" x2="100" y2="114" stroke="#FF5500" stroke-width="1" stroke-linecap="round"/>
+            <circle cx="100" cy="140" r="2.5" fill="#FF5500"/>
+          </g>
+        </svg>
+      `;
+    }
+
+    // ================= CHARM CUSTOMIZER =================
+    function selectCharm(charmId) {
+      activeCharm = charmId;
+
+      document.querySelectorAll('.charm-badge-btn').forEach(btn => {
+        btn.className = 'charm-badge-btn p-3 rounded-xl border transition-all text-center bg-zinc-900/40 border-white/10 hover:border-white/30 cursor-pointer';
+      });
+      document.getElementById(`charm-btn-${charmId}`).className = 'charm-badge-btn p-3 rounded-xl border transition-all text-center bg-zinc-900/90 border-[#FF5500] shadow-sm shadow-[#FF5500]/10 cursor-pointer';
+
+      const tag = document.getElementById('charm-active-tag');
+      const symbolEl = document.getElementById('charm-svg-symbol');
+
+      if (charmId === 'initial') {
+        tag.innerText = "Monogram 'S' Slotted";
+        symbolEl.textContent = 'S';
+      } else if (charmId === 'compass') {
+        tag.innerText = "Compass Charm Slotted";
+        symbolEl.textContent = '🧭';
+      } else {
+        tag.innerText = "Polaris Star Slotted";
+        symbolEl.textContent = '✦';
+      }
+
+      showToast(`Attached ${tag.innerText} to band`);
+    }
+
+    // ================= SEARCH OVERLAY =================
+    function toggleSearchModal() {
+      const modal = document.getElementById('search-modal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden')) {
+        document.getElementById('search-input').focus();
+      }
+    }
+
+    function applyQuickSearch(term) {
+      document.getElementById('search-input').value = term;
+      handleSearchQuery(term);
+    }
+
+    function handleSearchQuery(val) {
+      const results = document.getElementById('search-results');
+      if (!val.trim()) {
+        results.innerHTML = `
+          <p class="text-zinc-500 text-[11px] uppercase tracking-wider font-mono">Popular searches:</p>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="applyQuickSearch('Active Silicone')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">Active Silicone</button>
+            <button onclick="applyQuickSearch('Tuscan Leather')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">Tuscan Leather</button>
+            <button onclick="applyQuickSearch('NATO Ballistic')" class="px-2.5 py-1 rounded bg-zinc-900 border border-white/10 hover:border-white/30 text-zinc-300">NATO Ballistic</button>
+          </div>
+        `;
+        return;
+      }
+
+      results.innerHTML = `
+        <div class="p-3 bg-zinc-900 rounded-xl border border-white/10 space-y-2">
+          <p class="text-white font-bold">Matching "${val}"</p>
+          <a href="#collections" onclick="toggleSearchModal()" class="block text-[#FF5500] hover:underline">View in Materials & Collections →</a>
+          <a href="#bundles" onclick="toggleSearchModal()" class="block text-zinc-300 hover:underline">View matching Rotation Bundles →</a>
+        </div>
+      `;
+    }
+
+    // ================= NEWSLETTER SUBMIT =================
+    function handleNewsletter(e) {
+      e.preventDefault();
+      const email = document.getElementById('newsletter-email').value;
+      alert(`Welcome to the Strapify Club (${email}). Your 10% welcome coupon has been dispatched.`);
+      document.getElementById('newsletter-email').value = '';
+    }
+
+    // Initialize application state on load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCartBadge();
+      updateMechanismVisualizer();
+      lucide.createIcons();
+    });
+  </script>
+
+  <!-- ================= MACRO TEXTURE ZOOM LOUPE SCRIPT ================= -->
+  <script>
+    (function initMacroTextureZoom() {
+      const macroContainers = document.querySelectorAll('.group\\/macro');
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+      macroContainers.forEach(container => {
+        const loupe = container.querySelector('.macro-loupe');
+        const zoomImg = container.querySelector('.macro-zoom-img');
+        const baseImg = container.querySelector('img:not(.macro-zoom-img)');
+        if (!loupe || !zoomImg || !baseImg) return;
+
+        const SCALE = 2.5;
+        const LOUPE_DIAMETER = 144; // 36 * 4 = 144px (w-36 / h-36)
+        const LOUPE_RADIUS = LOUPE_DIAMETER / 2;
+
+        if (isTouch) {
+          // Touch devices: Gracefully ignore mouse tracking and allow a standard smooth tap zoom
+          container.addEventListener('click', () => {
+            const isZoomed = baseImg.classList.contains('scale-110');
+            macroContainers.forEach(c => {
+              const img = c.querySelector('img:not(.macro-zoom-img)');
+              if (img) img.classList.remove('scale-110');
+            });
+            if (!isZoomed) {
+              baseImg.classList.add('scale-110');
+            }
+          });
+          return;
+        }
+
+        let rafId = null;
+        let rect = null;
+
+        function updateLoupe(clientX, clientY) {
+          if (!rect) rect = container.getBoundingClientRect();
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
+
+          // Reposition loupe centered over cursor
+          loupe.style.left = `${x - LOUPE_RADIUS}px`;
+          loupe.style.top = `${y - LOUPE_RADIUS}px`;
+
+          // Scale zoom image dimensions to SCALE factor
+          const targetW = rect.width * SCALE;
+          const targetH = rect.height * SCALE;
+          zoomImg.style.width = `${targetW}px`;
+          zoomImg.style.height = `${targetH}px`;
+
+          // Offset zoomed inner image inversely to align magnified point under cursor
+          zoomImg.style.left = `${LOUPE_RADIUS - (x * SCALE)}px`;
+          zoomImg.style.top = `${LOUPE_RADIUS - (y * SCALE)}px`;
+        }
+
+        container.addEventListener('mouseenter', (e) => {
+          rect = container.getBoundingClientRect();
+          loupe.classList.remove('opacity-0', 'scale-95');
+          loupe.classList.add('opacity-100', 'scale-100');
+          updateLoupe(e.clientX, e.clientY);
+        });
+
+        container.addEventListener('mousemove', (e) => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            updateLoupe(e.clientX, e.clientY);
+          });
+        });
+
+        container.addEventListener('mouseleave', () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          loupe.classList.remove('opacity-100', 'scale-100');
+          loupe.classList.add('opacity-0', 'scale-95');
+          rect = null;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

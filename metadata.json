@@ -1,0 +1,6 @@
+{
+  "name": "Strapify — Premium Interchangeable Watch Straps",
+  "description": "Design-forward interchangeable watch straps for Apple Watch, Samsung, Garmin, Omega, Rolex, and classic horology. 5-second toolless quick-release mechanism and custom slide-on charms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
